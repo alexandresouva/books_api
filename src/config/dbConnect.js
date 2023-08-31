@@ -1,10 +1,10 @@
 'use strict';
 
 import mongoose from 'mongoose';
+import { strConnection } from './dbConfig.js';
 
-mongoose.connect(
-  'mongodb+srv://admin:admin@alura.wisen3f.mongodb.net/?retryWrites=true&w=majority'
-);
+// Configurações para conexão do MongoDB
+mongoose.connect(strConnection);
 
 const db = mongoose.connection;
 

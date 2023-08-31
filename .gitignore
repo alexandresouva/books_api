@@ -1,1 +1,4 @@
 node_modules
+
+# Configurações de acesso ao MongoDB
+src/config/dbConfig.js
