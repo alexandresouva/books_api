@@ -6,7 +6,8 @@ import books from '../models/Book.js';
 class BookController {
   static listBooks = async (req, res) => {
     try {
-      const booksFound = await books.find();
+      // Busca em Livros e popula com dados do Autor.
+      const booksFound = await books.find().populate('autor');
       res.status(200).json(booksFound);
     } catch (err) {
       res.status(500).json(err);
@@ -16,7 +17,8 @@ class BookController {
   static listBookById = async (req, res) => {
     try {
       const id = req.params.id;
-      const bookFound = await books.findById(id);
+      // Em populate identifico a tabela e também os campos que devem ser trazidos.
+      const bookFound = await books.findById(id).populate('autor', 'nome');
       res.status(200).json(bookFound);
     } catch (err) {
       res.status(400).send({
@@ -41,11 +43,9 @@ class BookController {
       await books.findByIdAndUpdate(id, { $set: req.body });
       res.status(200).send({ message: 'Livro atualizado com sucesso' });
     } catch (err) {
-      res
-        .status(500)
-        .send({
-          message: `Falha ao atualizar, ID não localizado - ${err.message} `,
-        });
+      res.status(500).send({
+        message: `Falha ao atualizar, ID não localizado - ${err.message} `,
+      });
     }
   };
 
@@ -55,11 +55,9 @@ class BookController {
       await books.findByIdAndDelete(id);
       res.status(200).send({ message: 'Livro removido com sucesso' });
     } catch (err) {
-      res
-        .status(500)
-        .send({
-          message: `Falha ao excluir, ID não localizado. - ${err.message} `,
-        });
+      res.status(500).send({
+        message: `Falha ao excluir, ID não localizado. - ${err.message} `,
+      });
     }
   };
 }
