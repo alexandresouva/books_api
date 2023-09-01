@@ -60,6 +60,18 @@ class BookController {
       });
     }
   };
+
+  static listBooksByPublisher = async (req, res) => {
+    try {
+      const publisher = req.query.editora;
+      const booksFound = await books.find({ editora: publisher }, {});
+      res.status(200).send(booksFound);
+    } catch (err) {
+      res.status(500).send({
+        message: `Não foi localizado nenhum livro. - ${err.message} `,
+      });
+    }
+  };
 }
 
 export default BookController;
